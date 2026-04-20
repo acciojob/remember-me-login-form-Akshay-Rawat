@@ -1,53 +1,49 @@
+const form = document.getElementById("loginForm");
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const checkbox = document.getElementById("checkbox");
+const existingBtn = document.getElementById("existing");
 
-  const form = document.getElementById("loginForm");
-    const username = document.getElementById("username");
-    const password = document.getElementById("password");
-    const checkbox = document.getElementById("checkbox");
-    const existingBtn = document.getElementById("existing");
+// Check if credentials exist on page load
+window.addEventListener("DOMContentLoaded", () => {
+    const savedUsername = localStorage.getItem("username");
+    const savedPassword = localStorage.getItem("password");
 
-
-    window.onload = function () {
-      const savedUser = localStorage.getItem("username");
-      const savedPass = localStorage.getItem("password");
-
-      if (savedUser && savedPass) {
+    if (savedUsername && savedPassword) {
         existingBtn.style.display = "block";
-      } else {
-        existingBtn.style.display = "none";
-      }
-    };
+    }
+});
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+// Form submit
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-      const user = username.value;
-      const pass = password.value;
+    const username = usernameInput.value;
+    const password = passwordInput.value;
 
-      alert(`Logged in as ${user}`);
+    alert(`Logged in as ${username}`);
 
-      if (checkbox.checked) {
-        // Save to localStorage
-        localStorage.setItem("username", user);
-        localStorage.setItem("password", pass);
-      } else {
-        // Remove stored data
+    if (checkbox.checked) {
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+    } else {
         localStorage.removeItem("username");
         localStorage.removeItem("password");
-      }
+    }
 
-      // Update button visibility
-      if (localStorage.getItem("username")) {
+    // Show/hide button after submit
+    if (localStorage.getItem("username")) {
         existingBtn.style.display = "block";
-      } else {
+    } else {
         existingBtn.style.display = "none";
-      }
-    });
+    }
+});
 
-    // 🔹 Existing User Login
-    existingBtn.addEventListener("click", function () {
-      const savedUser = localStorage.getItem("username");
+// Existing user login
+existingBtn.addEventListener("click", () => {
+    const savedUsername = localStorage.getItem("username");
 
-      if (savedUser) {
-        alert(`Logged in as ${savedUser}`);
-      }
-    });
+    if (savedUsername) {
+        alert(`Logged in as ${savedUsername}`);
+    }
+});
